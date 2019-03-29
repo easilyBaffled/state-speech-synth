@@ -1,3 +1,6 @@
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/easilyBaffled/state-speech-synth.svg)](https://greenkeeper.io/)
+
 > This is a reactive(?) alternative to the current SpeechSynthesis and SpeechSynthesisUtterance models
 > This sits onto of the native SS and translates the sometimes inconstant state that requires constant checking into a reactive model where you can subscribe to changes with a single function.
 > The new model offers to parts
