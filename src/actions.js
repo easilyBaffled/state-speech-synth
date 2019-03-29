@@ -1,7 +1,5 @@
-import { polyfill } from "console.ident";
 import handleStateChange from "./handleStateChange";
-polyfill();
-
+window.speechSynthesis.getVoices(); // Sometimes voices will not load right away. This is a hack to preload the voice list.
 const defaultConfig = {
   voice: "Alex",
   rate: 1,

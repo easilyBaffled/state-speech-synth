@@ -1,20 +1,42 @@
 {
-  "name": "audibleweb",
-  "version": "1.0.0",
+  "name": "state-speech-synth",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.html",
+  "main": "src/index.js",
   "scripts": {
-    "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "test": "echo \"Error: no test specified\""
   },
-  "dependencies": {
-    "console.ident": "0.1.3",
-    "showdown": "1.9.0"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easilyBaffled/state-speech-synth.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/easilyBaffled/state-speech-synth.git/issues"
+  },
+  "homepage": "https://github.com/easilyBaffled/state-speech-synth.git#readme",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-export-default-from"
+    ]
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ]
+    ]
   },
   "devDependencies": {
-    "@babel/core": "7.2.0",
-    "@types/showdown": "1.9.2",
-    "parcel-bundler": "^1.6.1"
-  },
-  "keywords": []
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@pika/plugin-build-web": "^0.3.14",
+    "@pika/plugin-standard-pkg": "^0.3.14"
+  }
 }
