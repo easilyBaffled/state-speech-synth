@@ -11,21 +11,20 @@ const states = {
   },
   [PROCESSING]: {
     start: PLAYING,
-    cancel: IDLE,
+    end: IDLE,
     pause: PAUSED
   },
   [PLAYING]: {
     end: IDLE,
-    cancel: IDLE,
     pause: PAUSED
   },
   [PAUSED]: {
-    cancel: IDLE,
+    end: IDLE,
     resume: PLAYING
   }
 };
 
-let currentState = IDLE;
+export let currentState = IDLE;
 
 export default function handleStateChange(event) {
   const previousState = currentState;
