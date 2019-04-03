@@ -20,7 +20,7 @@
 ---
 
 # Intro
-`state-speech-synth` is a lightweight wrapper around the native speech-to-text API ([`speechSynthesis`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)+[`SpeechSynthesisUtterance`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance). It provides a succinct API and the guarantee of consistent  data.
+`state-speech-synth` is a lightweight wrapper around the native speech-to-text API [`speechSynthesis`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)+[`SpeechSynthesisUtterance`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance). It provides a succinct API and the guarantee of consistent  data.
 
 # Why
 Tracking the playing state of `speechSynthesis` + `SpeechSynthesisUtterance` can be a headache. There are essentially two paths to take. One is untrustworthy, and the other is cumbersome.
