@@ -21,57 +21,70 @@
 ---
 
 # Intro
-WHAT IT DOES
-
-State-Speech-Synth wraps the native Text-to-Speech offering with a small state machine in order to produce a succinct and consistent experience.
-SSS provides 
-Instead of polling for changes to the `SpeechSynthesis` object and deriving the current state, `state-speech-synth` delivers it with an even hook.  
-
-
----
+`state-speech-synth` is a lightweight wrapper around the native speech-to-text API ([`speechSynthesis`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)+[`SpeechSynthesisUtterance`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance). It provides a succinct API and the guarantee of consistent  data.
 
 # Why
-WHAT PROBLEM IS IT SOLVING
+Tracking the playing state of `speechSynthesis` + `SpeechSynthesisUtterance` can be a headache. There are essentially two paths to take. One is untrustworthy, and the other is cumbersome.
+**Inconsistent:** 
+`speechSynthesis` has 3 read-only boolean values `speaking`, `paused`, `pending`. In an idea world only one of these is true at a time, unless they are all false in which case the system is idle. It doesn’t take much finagling from the use to cause 2 of these values to be true at the same time leading you to [representing impossible states](https://gist.github.com/busypeoples/ab2f993843f23614232a1f8500a4b542).
+Example: [SpeechSynth Native Example - CodeSandbox](https://codesandbox.io/s/30rw79pvvm)
 
-The native SpeechSynthesis & SpeechSynthesisUtterance small APIs belie it's complexity. To identify the current state of the SpeechSynthesis, across all tabs you have to check 3 booleans `paused`, `pending` and `speaking`. Ideally only one of them will be true at a time, or all of them will false. But there are non-corner cases where this isn't true and you can get stuck representing what seems like an impossible state.
-Instead of deriving the current state from `paused`, `pending` and `speaking`,  `SSS` will only offer a single state value at a time `PLAYING`, `PAUSED`, `PROCESSING` and `IDLE` . And instead of having to poll the `SpeechSynthesis` or setting event listers and your Utterance objects,  `SSS` offers a `onStateChange` handler where you can all of your work.
+**Cumbersome:**
+A solution to the inconsistency issues is use the event handlers on each `SpeechSynthesisUtterance` instance. There is a handler for almost every situation [onend](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/onend) , [onerror](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/onerror),  [onpause](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/onpause) , [onresume](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/onresume) , [onstart](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/onstart). It’s missing an event for the `onqueued` and `onprocessing`, but that’s more of a nitpick. Which I suppose is the crux of the issue. There’s a lot of little things to write. I should know. That’s how this module is written. 
 
-**Example**
+# How It Works
+This module wraps `speechSynthesis` + `SpeechSynthesisUtterance` as a single API. It uses the event listeners to accurately track state changes (aren’t you glad you won’t have to write those 😁). Those listeners fire off to a single handler that will validate the state change and pass the result ( a single value ) to a state change handling function you’ve specified via the `onStateChange` subscriber function. 
 
-### Native
-### With state-speech-synth
-
----
+# Usage
+Here are a few examples of the code in action 
+**Native JS:** [state-speech-synth Vanilla Example - CodeSandbox](https://codesandbox.io/s/0oxwp76wjn) - compare it to the example above. Not only it is safer, it’s shorter!
+**React JS:** [state-speech-synth React Example - CodeSandbox](https://codesandbox.io/s/p2rnn75r2m) - works so well with React Hooks
+**Chrome Extension:** [read-to-me/background.js at master · easilyBaffled/read-to-me · GitHub](https://github.com/easilyBaffled/read-to-me/blob/master/background.js) - A Chrome Extension I use to help with my dyslexia 
 
 # API
+## `onStateChange( stateChangeHandler )`
 
-## `onStateChange( callBackHandler: function( currentState ): * ): removeHandler`
+
+Adds  `stateChangeHandler`  to the subscription list. `stateChangeHandler` will then be called every time there is a change in the SpeechSynthesis state. You can add as many handlers as you like. They will be called in the order there were added. `
+
+When called `stateChangeHandlers` are passed 
+`currentState (IDLE| PROCESSING|PLAYING|PAUSED)`: - One of the state Symbols exported by the `state-speech-synth` module
+`typeString (string)` - the type property from the original `SpeechSynthesisUtterance` event
+`event (object)` - the original `SpeechSynthesisUtterance` event
+`validTransition (boolean)` - a value indicating of the change from `SpeechSynthsis` was valid. If `false` the `currentValue` will not change, but the event will be the new invalid event.
+
 
 #### Arguments
+`stateChangeHandler (Function)` - A function that will be called whenever state changes
 
 #### Returns
+`(Function)` - A function that, when called, will unsubscribe the associated handler.
+
+#### Example 
+```js 
+synth.onStateChange( ( currentState, type, event, validTransition ) => {
+	if ( ! validTransition ) return;
+
+	const displayStates = synthStateMap[currentState];
+	
+	speechControls.map(
+		(controlElement, i) =>
+			(controlElement.style.display = getDisplayStyle(displayStates[i]))
+	);
+});
+```
+
+## `speak( text, utteranceConfigObj )`
+This function is a combination [`speechSynthesis.speak`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/speak) and [`new SpeechSynthesisUtterance(text)`](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/SpeechSynthesisUtterance). It will handle setting up the utterance instance and firing it off to be processed. 
+
+#### Arguments
+`text (string)` - A string that will be added to the queue for processing and speaking
+`utteranceConfigObj` - and object that will be used to set the properties of the utterance instance. Currently only `rate (string|number)`, `voice (string)` and `volume (string|number)` are handled.
 
 #### Example
 ```js
-
+synth.speak(textInput.value, { voice: 'Alex', rate: 1.7 });
 ```
-
----
-
-## `speak`
-
-#### Arguments
-
-#### Returns
-
-#### Example
-```js
-
-```
-
----
-
-
 
 ## `pause`, `resume`, `cancel`
 These three functions directly use the `SpeechSynthesis` functions of the same name.
@@ -80,42 +93,8 @@ These are all documented on MDN far better than I could here.
 [`resume`]()  
 [`cancel`]()
 
-#### Example
-```js
-
-```
-
----
-
-## `resume`
-
-#### Example
-```js
-
-```
-
----
-
-## `cancel`
-
-#### Example
-```js
-
-```
-
-
----
----
----
-
-This is a alternative interface for the current SpeechSynthesis and SpeechSynthesisUtterance models
-This sits on top of the native SS and translates the sometimes inconstant state that requires constant checking into a reactive model where you can subscribe to changes with a single function.
-The new model offers two parts:
-The first is a single function `onStateChange`. This is how you subscribe to the SS and it's changes.
-`onStateChange` This takes a function that will be called when the SS's state changes. It returns a function that you can call to remove the passed in `changeHandler`. You can call `onStateChange` as many times as you want to add any number of `changeHandler` to the SS. When the state changes they will each be called and in the order they were added. Removing a `changeHandler` will not alter the remaining order.
-There is only one instance of SS (because browsers can only have one sounding off at a time(?)).
-
-The second part are the functions to control the SS state. `speak`, `resume`, `pause`, `cancel`, `configure`.
-These replicate the functions available from the native SpeechSynthesis.
-The only difference between these and the native is that `speak` takes an optional second argument which will be the configuration for the SSU.
-There is also a standalone `configuraiton` function to server that purpose as well. Calling these will trigger changes to SS regardless of `changeHandler`s.
+# Roadmap
+- [ ] Add `queued` state
+- [ ] add `toAudio` conversion
+- [ ] have `speak` take an utterance
+- [ ] allow additional utterance options
