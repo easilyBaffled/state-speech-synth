@@ -1,4 +1,3 @@
-# Work in Progress
 <p align="center">
     <img
         alt="state-speech-synth-logo"
