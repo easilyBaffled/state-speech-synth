@@ -1,0 +1,24 @@
+<svg version="1" viewBox="0 0 457 440" fill="none" stroke-linecap="square" stroke-miterlimit="10" xmlns="http://www.w3.org/2000/svg">
+  <clipPath id="a">
+    <path d="M0 0h457v440H0V0z"/>
+  </clipPath>
+  <g clip-path="url(#a)">
+    <path fill="none" d="M0 0h457v440H0zM169 85l138 67"/>
+    <path stroke="#ff8f68" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M169 85l138 67"/>
+    <path fill="none" d="M102 152v135"/>
+    <path stroke="#ff8f68" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M102 152v135"/>
+    <path fill="none" d="M169 355l138-68"/>
+    <path stroke="#ff8f68" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M169 355l138-68"/>
+    <path fill="#fff" d="M34 40c0-12 10-22 23-22h90a22 22 0 0 1 22 22v90c0 12-10 22-22 22H57c-13 0-23-10-23-22z" fill-rule="evenodd"/>
+    <path stroke="#ff6a6a" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M34 40c0-12 10-22 23-22h90a22 22 0 0 1 22 22v90c0 12-10 22-22 22H57c-13 0-23-10-23-22z"/>
+    <path fill="#fff" d="M34 310c0-13 10-23 23-23h90a22 22 0 0 1 22 23v89c0 13-10 23-22 23H57c-13 0-23-10-23-23z" fill-rule="evenodd"/>
+    <path stroke="#ff6a6a" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M34 310c0-13 10-23 23-23h90a22 22 0 0 1 22 23v89c0 13-10 23-22 23H57c-13 0-23-10-23-23z"/>
+    <path fill="#fff" d="M423 220l-116-68 116-67z" fill-rule="evenodd"/>
+    <path stroke="#ff6a6a" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M423 220l-116-68 116-67z"/>
+    <path fill="#fff" d="M423 355l-116-68 116-67z" fill-rule="evenodd"/>
+    <path stroke="#ff6a6a" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M423 355l-116-68 116-67z"/>
+    <path fill="#fff" d="M252 175c0-13 10-23 23-23h126a22 22 0 0 1 22 23v90c0 12-10 22-22 22H275c-13 0-23-10-23-22z" fill-rule="evenodd"/>
+    <path stroke="#ff6a6a" stroke-width="16" stroke-linejoin="round" stroke-linecap="butt" d="M252 175c0-13 10-23 23-23h126a22 22 0 0 1 22 23v90c0 12-10 22-22 22H275c-13 0-23-10-23-22z"/>
+    <path fill="#fff" d="M416 341l-109-63V161l109-63z" fill-rule="evenodd"/>
+  </g>
+</svg>
